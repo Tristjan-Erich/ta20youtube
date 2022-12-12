@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Video;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class CommentController extends Controller
 {
@@ -34,9 +39,14 @@ class CommentController extends Controller
      * @param  \App\Http\Requests\StoreCommentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCommentRequest $request)
+    public function store(StoreCommentRequest $request, Video $video)
     {
-        //
+        $comment = new Comment($request->validated());
+        $comment->user()->associate(Auth::user());
+        $comment->video()->associate($video);
+        $comment->save();
+        $request->session()->flash('status', 'Comment created!');
+        return redirect()->back();
     }
 
     /**

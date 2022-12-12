@@ -12,6 +12,15 @@
         </div>
     </div>
 
+    <form action="{{route('videos.comments.store', $video)}}" method="post">
+        @csrf
+        <div class="form-group">
+            <label for="body">Comment</label>
+            <textarea name="body" id="body" cols="30" rows="10" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+
     @foreach($video->comments as $comment)
         <div class="card mt-2">
             <div class="card-body">

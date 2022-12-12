@@ -16,4 +16,8 @@ class Comment extends Model
     public function video(){
         return $this->belongsTo(Video::class);
     }
+
+    protected $fillable = [
+        'body'
+    ];
 }

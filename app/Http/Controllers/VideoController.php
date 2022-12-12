@@ -62,7 +62,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        //
+        $video = Video::latest()->paginate();
+        return view('videos.show', compact('video'));
     }
 
     /**
